@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>Edge Radio Player Example</title>
+  <script src="../dist/edge-radio-player-1.0.0.min.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div id="radio"></div>
+  <script>
+    var radioId = "XXX";
+    var playerElement = document.getElementById("radio");
+    var edgeRadioPlayer = new EdgeRadioPlayer(playerElement, radioId);
+  </script>
+</body>
+</html>
