@@ -1,0 +1,79 @@
+body {
+    background: url(seacoastsample.png) no-repeat;
+    background-size: cover;
+    background-position-y: 50px;
+}
+
+.edge-radio-player-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+
+    height: 50px;
+    background: #344557;
+
+    font-family: 'Roboto Condensed', sans-serif;
+    border-bottom: 1px solid #435567;
+}
+
+#edge-radio-player-display {
+    position: absolute;
+    left: 100px;
+
+    font-size: 20px;
+    color: #fff;
+    text-transform: uppercase;
+    padding: 13px;
+}
+
+#edge-radio-player-display-label {
+    color: #ea8821;
+}
+
+#edge-radio-player-logo-image-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100px;
+    text-align: center;
+}
+
+#edge-radio-player-logo-image {
+    padding: 5px;
+    height: 40px;
+}
+
+#edge-radio-player-play-pause {
+    position: absolute;
+    top: 10px;
+    right: 90px;
+
+    height: 32px;
+    width: 31px;
+
+    cursor: pointer;
+
+    background: url(icons.png);
+    background-position: -67px 0;
+}
+
+#edge-radio-player-play-pause.paused {
+    background-position: -101px 0;
+}
+
+#edge-radio-player-volume {
+    position: absolute;
+    top: 10px;
+    right: 45px;
+
+    height: 30px;
+    width: 30px;
+
+    cursor: pointer;
+
+    background: url(icons.png);
+}
+#edge-radio-player-volume.muted {
+    background-position: -34px 0;
+}
