@@ -13,7 +13,8 @@ export default class PlayerService {
       setTimeout(() => {
         this.radioConfig = {
           streamUrl: "http://edgeradio.streamon.fm/hlsts/EDGERADIO.m3u8",
-          logoUrl: "edgeradio-logo.png"
+          logoImage: "edgeradio-logo.png",
+          logoLink: "http://www.edgestreamingradio.com"
         };
         resolve();
       }, 500);

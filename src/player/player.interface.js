@@ -80,10 +80,16 @@ export default class PlayerInterface {
     imageContainer.id = 'edge-radio-player-logo-image-container';
     this.container.appendChild(imageContainer);
 
+    let logoLink = document.createElement('a');
+    logoLink.href = this.service.radioConfig.logoLink;
+    logoLink.target = '_blank';
+
     this.displayLogo = document.createElement('img');
     this.displayLogo.id = 'edge-radio-player-logo-image';
-    this.displayLogo.src = this.service.radioConfig.logoUrl;
-    imageContainer.appendChild(this.displayLogo);
+    this.displayLogo.src = this.service.radioConfig.logoImage;
+    logoLink.appendChild(this.displayLogo);
+
+    imageContainer.appendChild(logoLink);
 
   }
 

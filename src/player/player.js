@@ -75,5 +75,10 @@ export default class EdgeRadioPlayer {
     this.interface.setDisplayContent(name);
     this.interface.player.src = url;
     this.interface.player.play();
+
+    this.interface.player.addEventListener("ended", () =>
+    {
+      this.startStream();
+    });
   }
 }
