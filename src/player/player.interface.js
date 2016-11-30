@@ -42,6 +42,7 @@ export default class PlayerInterface {
     }
   };
 
+
   toggleMute() {
     if(this.player.muted) {
       this.player.muted = false;
