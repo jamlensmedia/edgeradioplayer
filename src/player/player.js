@@ -21,6 +21,7 @@ export default class EdgeRadioPlayer {
       positioning: 'fixed',
       disableCss: false
     };
+    this.streamStarted = false;
 
     this.config = this.initConfig(config);
     this.initPlayer(element, radioId);
@@ -30,10 +31,10 @@ export default class EdgeRadioPlayer {
   initPlayer(element, radioId) {
     this.service = new PlayerService(radioId);
     this.service.getRadioConfig().then(() => {
-      this.interface = new PlayerInterface(element, this.service);
+      this.interface = new PlayerInterface(element, this.service, this);
       this.playlist = new PlayerPlaylist();
 
-      this.initStream();
+      this.startStream();
 
       this.playlist.getCurrentSong().then((currentSong) => {
         this.interface.setCurrentSong(currentSong);
@@ -41,17 +42,22 @@ export default class EdgeRadioPlayer {
     });
   }
 
-  initStream() {
-    if(Hls.isSupported()) {
+  startStream() {
+    if(Hls.isSupported() && !this.streamStarted) {
       var hls = new Hls();
       hls.loadSource(this.service.radioConfig.streamUrl);
       hls.attachMedia(this.interface.player);
       hls.on(Hls.Events.MANIFEST_PARSED,() => {
-        console.log("manifest parsed");
-        console.log(this.interface.player.paused);
+        this.streamStarted = true;
         this.interface.player.play();
-        console.log("here");
-        console.log(this.interface.player.paused);
+      });
+
+      hls.on(Hls.Events.LEVEL_LOADED, (event,data) => {
+        if(this.streamStarted) {
+          this.playlist.getCurrentSong().then((currentSong) => {
+            this.interface.setCurrentSong(currentSong);
+          });
+        }
       });
     }
   }
@@ -61,5 +67,13 @@ export default class EdgeRadioPlayer {
     Object.assign(this.defaultConfig, config);
 
     return config;
+  }
+
+  playAudio(url, name) {
+    this.streamStarted = false;
+    this.interface.setDisplayLabel('Playing: ');
+    this.interface.setDisplayContent(name);
+    this.interface.player.src = url;
+    this.interface.player.play();
   }
 }

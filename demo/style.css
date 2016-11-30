@@ -2,6 +2,20 @@ body {
     background: url(seacoastsample.png) no-repeat;
     background-size: cover;
     background-position-y: 50px;
+
+    padding-top: 90px;
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+.audio-button {
+    padding: 10px;
+    text-align: center;
+    border-radius: 3px;
+
+    background: #ea8821;
+    color: #fff;
+    text-transform: uppercase;
+    cursor: pointer;
 }
 
 .edge-radio-player-container {

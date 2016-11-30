@@ -2,9 +2,10 @@
 
 // Class to control player
 export default class PlayerInterface {
-  constructor(containerElement, service) {
+  constructor(containerElement, service, player) {
     this.container = containerElement;
     this.service = service;
+    this.playerController = player;
     this.createPlayer();
     this.createDisplay();
     this.createControls();
@@ -33,12 +34,16 @@ export default class PlayerInterface {
   }
 
   playPause() {
-    if(this.player.paused) {
-      this.player.play();
-      this.playPauseControl.classList.remove('paused');
+    if(!this.playerController.streamStarted) {
+      this.playerController.startStream();
     } else {
-      this.player.pause();
-      this.playPauseControl.classList.add('paused');
+      if(this.player.paused) {
+        this.player.play();
+        this.playPauseControl.classList.remove('paused');
+      } else {
+        this.player.pause();
+        this.playPauseControl.classList.add('paused');
+      }
     }
   };
 
@@ -61,14 +66,14 @@ export default class PlayerInterface {
     this.display.id = 'edge-radio-player-display';
     this.container.appendChild(this.display);
 
-    let displayLabel = document.createElement('span');
-    displayLabel.id = 'edge-radio-player-display-label';
-    displayLabel.innerHTML = 'Live Radio: ';
-    this.display.appendChild(displayLabel);
+    this.displayLabel = document.createElement('span');
+    this.displayLabel.id = 'edge-radio-player-display-label';
+    this.setDisplayLabel('Live Radio: ');
+    this.display.appendChild(this.displayLabel);
 
     this.displaySong = document.createElement('span');
     this.displaySong.id = 'edge-radio-player-display-song';
-    this.displaySong.innerHTML = 'loading...';
+    this.setDisplayContent('loading...');
     this.display.appendChild(this.displaySong);
 
     let imageContainer = document.createElement('div');
@@ -82,8 +87,16 @@ export default class PlayerInterface {
 
   }
 
+  setDisplayContent(content) {
+    this.displaySong.innerHTML = content
+  }
+
+  setDisplayLabel(content) {
+    this.displayLabel.innerHTML = content;
+  }
+
   setCurrentSong(currentSong) {
-    this.displaySong.innerHTML = currentSong.TIT2 + ' - ' + currentSong.TPE1;
+    this.setDisplayContent(currentSong.TIT2 + ' - ' + currentSong.TPE1);
   }
 };
 
