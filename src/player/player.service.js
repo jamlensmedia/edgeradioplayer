@@ -12,7 +12,7 @@ export default class PlayerService {
     let promise = new Promise((resolve, reject) => {
       setTimeout(() => {
         this.radioConfig = {
-          streamUrl: "//edgeradio.streamon.fm/hlsts/EDGERADIO.m3u8",
+          streamUrl: "http://edgeradio.streamon.fm/hlsts/EDGERADIO.m3u8",
           logoUrl: "edgeradio-logo.png"
         };
         resolve();

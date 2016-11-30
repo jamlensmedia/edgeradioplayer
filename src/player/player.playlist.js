@@ -20,7 +20,7 @@ export default class PlayerPlaylist {
 
   getPlayerMetadata() {
     let promise = new Promise((resolve, reject) => {
-      request.get('//edgeradio.streamon.fm/metadata/recentevents/EDGERADIO-48k.json',
+      request.get('http://edgeradio.streamon.fm/metadata/recentevents/EDGERADIO-48k.json',
         function (err, res, body) {
           if (err) reject(err);
           this.metadata = JSON.parse(body);
