@@ -79,6 +79,7 @@ export default class EdgeRadioPlayer {
     this.interface.player.addEventListener("ended", () =>
     {
       this.startStream();
+      this.interface.player.play();
     });
   }
 }
