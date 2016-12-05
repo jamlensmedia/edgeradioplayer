@@ -102,7 +102,7 @@ export default class PlayerInterface {
   }
 
   setCurrentSong(currentSong) {
-    this.setDisplayContent(currentSong.TIT2 + ' - ' + currentSong.TPE1);
+    this.setDisplayContent(currentSong.TPE1 + ' - ' + currentSong.TIT2);
   }
 };
 
