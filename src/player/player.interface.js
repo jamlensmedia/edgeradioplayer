@@ -28,7 +28,10 @@ export default class PlayerInterface {
     this.volumeControl = document.createElement('div');
     this.volumeControl.id = 'edge-radio-player-volume';
     this.volumeControl.addEventListener('click', () => {
-      this.toggleMute();
+      this.toggleVolume();
+    });
+    this.volumeSliderContainer.addEventListener('click', (event) => {
+      this.updateVolume(event);
     });
     this.container.appendChild(this.volumeControl);
   }
@@ -57,8 +60,23 @@ export default class PlayerInterface {
     }
   };
 
+  toggleVolume() {
+    if(this.volumeSliderOpen) {
+      this.volumeSliderOpen = false;
+      this.volumeSliderContainer.classList.remove('active');
+    } else {
+      this.volumeSliderOpen = true;
+      this.volumeSliderContainer.classList.add('active');
+    }
+  };
+
+  updateVolume(event) {
+    this.volume(event.offsetY);
+  }
+
   volume(playbackVolume) {
-    this.player.volume(playbackVolume);
+    this.volumeSlider.style.top = playbackVolume + 'px';
+    this.player.volume = Math.abs(playbackVolume - 100)/100;
   };
 
   createDisplay() {

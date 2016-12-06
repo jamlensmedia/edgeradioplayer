@@ -90,11 +90,13 @@ body {
     background: url(icons.png);
     background-size: 99px 49px;
 }
+
 #edge-radio-player-volume.muted {
     background-position: -25px 0;
 }
 
 #edge-radio-player-volume-slider-container {
+    display: none;
     position: absolute;
     top: 35px;
     right: 56px;
@@ -103,6 +105,13 @@ body {
     height: 100px;
 
     background: #344557;
+
+    cursor: pointer;
+}
+
+
+#edge-radio-player-volume-slider-container.active {
+    display: block;
 }
 
 
@@ -124,9 +133,10 @@ body {
     height: 4px;
 
     background: #fff;
-    cursor: pointer;
+
+    /*cursor: pointer;*/
 }
 
-#edge-radio-player-volume-slider:hover {
-    background: #ea8821;
-}
+/*#edge-radio-player-volume-slider:hover {*/
+    /*background: #ea8821;*/
+/*}*/
