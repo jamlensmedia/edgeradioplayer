@@ -145,6 +145,7 @@ body {
     background: #fff;
 
     /*cursor: pointer;*/
+    -webkit-transition: 150ms ease all;
 }
 
 /*#edge-radio-player-volume-slider:hover {*/
