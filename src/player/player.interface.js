@@ -18,22 +18,34 @@ export default class PlayerInterface {
   }
 
   createControls() {
+    this.controlContainer = document.createElement('div');
+    this.controlContainer.id = 'edge-radio-player-control-container';
+    this.container.appendChild(this.controlContainer);
+
     this.playPauseControl = document.createElement('div');
     this.playPauseControl.id = 'edge-radio-player-play-pause';
     this.playPauseControl.addEventListener('click', () => {
       this.playPause();
     });
-    this.container.appendChild(this.playPauseControl);
+    this.controlContainer.appendChild(this.playPauseControl);
 
     this.volumeControl = document.createElement('div');
     this.volumeControl.id = 'edge-radio-player-volume';
     this.volumeControl.addEventListener('click', () => {
       this.toggleVolume();
     });
+    this.controlContainer.appendChild(this.volumeControl);
+
+    this.volumeSliderContainer = document.createElement('div');
+    this.volumeSliderContainer.id = 'edge-radio-player-volume-slider-container';
+    this.controlContainer.appendChild(this.volumeSliderContainer);
+
+    this.volumeSlider = document.createElement('div');
+    this.volumeSlider.id = 'edge-radio-player-volume-slider';
+    this.volumeSliderContainer.appendChild(this.volumeSlider);
     this.volumeSliderContainer.addEventListener('click', (event) => {
       this.updateVolume(event);
     });
-    this.container.appendChild(this.volumeControl);
   }
 
   playPause() {
@@ -108,14 +120,6 @@ export default class PlayerInterface {
     logoLink.appendChild(this.displayLogo);
 
     imageContainer.appendChild(logoLink);
-
-    this.volumeSliderContainer = document.createElement('div');
-    this.volumeSliderContainer.id = 'edge-radio-player-volume-slider-container';
-    this.container.appendChild(this.volumeSliderContainer);
-
-    this.volumeSlider = document.createElement('div');
-    this.volumeSlider.id = 'edge-radio-player-volume-slider';
-    this.volumeSliderContainer.appendChild(this.volumeSlider);
   }
 
   setDisplayContent(content) {

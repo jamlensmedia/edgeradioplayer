@@ -58,10 +58,20 @@ body {
     height: 32px;
 }
 
+#edge-radio-player-control-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 100px;
+
+    background: #344557;
+}
+
 #edge-radio-player-play-pause {
     position: absolute;
     top: 6px;
-    right: 90px;
+    left: 10px;
 
     height: 23px;
     width: 23px;
@@ -80,7 +90,7 @@ body {
 #edge-radio-player-volume {
     position: absolute;
     top: 6px;
-    right: 60px;
+    left: 40px;
 
     height: 23px;
     width: 23px;
@@ -99,7 +109,7 @@ body {
     display: none;
     position: absolute;
     top: 35px;
-    right: 56px;
+    left: 37px;
 
     width: 30px;
     height: 100px;
