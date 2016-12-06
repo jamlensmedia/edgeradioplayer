@@ -47,7 +47,6 @@ export default class PlayerInterface {
     }
   };
 
-
   toggleMute() {
     if(this.player.muted) {
       this.player.muted = false;
@@ -57,6 +56,7 @@ export default class PlayerInterface {
       this.volumeControl.classList.add('muted');
     }
   };
+
   volume(playbackVolume) {
     this.player.volume(playbackVolume);
   };
@@ -91,6 +91,13 @@ export default class PlayerInterface {
 
     imageContainer.appendChild(logoLink);
 
+    this.volumeSliderContainer = document.createElement('div');
+    this.volumeSliderContainer.id = 'edge-radio-player-volume-slider-container';
+    this.container.appendChild(this.volumeSliderContainer);
+
+    this.volumeSlider = document.createElement('div');
+    this.volumeSlider.id = 'edge-radio-player-volume-slider';
+    this.volumeSliderContainer.appendChild(this.volumeSlider);
   }
 
   setDisplayContent(content) {

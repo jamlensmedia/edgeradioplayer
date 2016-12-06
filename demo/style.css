@@ -1,5 +1,5 @@
 body {
-    background: url(seacoastsample.png) no-repeat;
+    /*background: url(seacoastsample.png) no-repeat;*/
     background-size: cover;
     background-position-y: 35px;
 
@@ -92,4 +92,15 @@ body {
 }
 #edge-radio-player-volume.muted {
     background-position: -25px 0;
+}
+
+#edge-radio-player-volume-slider-container {
+    position: absolute;
+    top: 15px;
+    right: 60px;
+
+    width: 30px;
+    height: 200px;
+
+    background: #344557;
 }
