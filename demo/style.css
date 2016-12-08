@@ -34,11 +34,23 @@ body {
 #edge-radio-player-display {
     position: absolute;
     left: 100px;
-
+    right: 100px;
     font-size: 20px;
     color: #fff;
     text-transform: uppercase;
     padding: 4px;
+    white-space: nowrap;
+}
+
+@media only screen
+and (min-device-width : 375px)
+and (max-device-width : 667px)
+and (orientation : portrait) {
+    #edge-radio-player-display {
+        padding: 4px 10px 4px 10px;
+        -webkit-marquee: auto small infinite alternate normal;
+        overflow-x: -webkit-marquee;
+    }
 }
 
 #edge-radio-player-display-label {

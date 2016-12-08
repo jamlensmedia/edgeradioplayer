@@ -59,6 +59,13 @@ export default class EdgeRadioPlayer {
           });
         }
       });
+    } else if(!this.streamStarted) {
+      this.streamStarted = true;
+      this.interface.player.src = this.service.radioConfig.streamUrl;
+      this.interface.playPause();
+      if(this.interface.player.paused) {
+        this.interface.playPauseControl.classList.add('paused');
+      }
     }
   }
 
