@@ -32,7 +32,7 @@ export default class EdgeRadioPlayer {
     this.service = new PlayerService(radioId);
     this.service.getRadioConfig().then(() => {
       this.interface = new PlayerInterface(element, this.service, this);
-      this.playlist = new PlayerPlaylist();
+      this.playlist = new PlayerPlaylist(this);
 
       this.startStream();
 
@@ -44,19 +44,24 @@ export default class EdgeRadioPlayer {
 
   startStream() {
     if(Hls.isSupported() && !this.streamStarted) {
-      var hls = new Hls();
+      var config = {
+        debug: false
+      };
+      var hls = new Hls(config);
       hls.loadSource(this.service.radioConfig.streamUrl);
       hls.attachMedia(this.interface.player);
       hls.on(Hls.Events.MANIFEST_PARSED,() => {
         this.streamStarted = true;
         this.interface.player.play();
+        this.interface.playPauseControl.classList.remove('paused');
       });
 
-      hls.on(Hls.Events.LEVEL_LOADED, (event,data) => {
+      hls.on(Hls.Events.FRAG_LOADED, (event,data) => {
         if(this.streamStarted) {
-          this.updateSong();
+          this.updateSong(data.stats);
         }
       });
+      this.hls = hls;
     } else if(!this.streamStarted) {
       this.streamStarted = true;
       this.interface.player.src = this.service.radioConfig.streamUrl;
@@ -67,8 +72,15 @@ export default class EdgeRadioPlayer {
     }
   }
 
-  updateSong() {
-    this.playlist.getCurrentSong().then((currentSong) => {
+  stopStream() {
+    if(this.hls && Hls.isSupported()) {
+      this.hls.destroy();
+      this.streamStarted = false;
+    }
+  }
+
+  updateSong(stats) {
+    this.playlist.getCurrentSong(stats).then((currentSong) => {
       this.interface.setCurrentSong(currentSong);
     });
   }

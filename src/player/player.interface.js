@@ -59,6 +59,7 @@ export default class PlayerInterface {
       } else {
         this.player.pause();
         this.playPauseControl.classList.add('paused');
+        this.playerController.stopStream();
       }
     }
   };
