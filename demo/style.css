@@ -50,12 +50,18 @@ and (orientation : portrait) {
         padding: 5px;
     }
     #edge-radio-player-display {
-        padding: 5px 10px 5px 10px;
-        -webkit-marquee: auto small infinite alternate normal;
-        overflow-x: -webkit-marquee;
+        height: 35px;
+        overflow: hidden;
     }
     #edge-radio-player-display-label {
         display: none;
+    }
+    #edge-radio-player-display-song {
+        display: block;
+        position: absolute;
+        top: 6px;
+        left: 0;
+        transition: 4500ms linear all;
     }
 }
 

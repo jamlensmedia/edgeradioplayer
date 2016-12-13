@@ -56,7 +56,7 @@ export default class EdgeRadioPlayer {
         this.interface.playPauseControl.classList.remove('paused');
       });
 
-      hls.on(Hls.Events.FRAG_LOADED, (event,data) => {
+      hls.on(Hls.Events.LEVEL_LOADED, (event,data) => {
         if(this.streamStarted) {
           this.updateSong(data.stats);
         }

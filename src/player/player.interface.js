@@ -9,6 +9,7 @@ export default class PlayerInterface {
     this.createPlayer();
     this.createDisplay();
     this.createControls();
+    this.trackAnimating = false;
   }
 
   createPlayer() {
@@ -125,7 +126,25 @@ export default class PlayerInterface {
   }
 
   setDisplayContent(content) {
-    this.displaySong.innerHTML = content
+    this.displaySong.innerHTML = content;
+    if(this.displaySong.offsetWidth > this.display.offsetWidth && !this.trackAnimating) {
+      this.trackAnimating = true;
+      this.startTrackScroll();
+    }
+  }
+
+  resetTrackPosition() {
+    this.displaySong.style.transform = "translate3d(0, 0, 0)";
+    setTimeout(() => {
+      this.startTrackScroll();
+    }, 5000);
+  }
+
+  startTrackScroll() {
+    this.displaySong.style.transform = "translate3d(-" + (this.displaySong.offsetWidth - this.display.offsetWidth) + "px, 0, 0)";
+    setTimeout(() => {
+      this.resetTrackPosition();
+    }, 5000);
   }
 
   setDisplayLabel(content) {

@@ -15,8 +15,6 @@ export default class PlayerPlaylist {
         let currentSong = metadata[metadata.length - 1];
 
         if(new Date() > timestamp) {
-          console.log("UPDATE SONG to :" +
-            metadata[metadata.length - 1].TPE1 + ' - ' + metadata[metadata.length - 1].TIT2);
           resolve(currentSong);
         }
       });
