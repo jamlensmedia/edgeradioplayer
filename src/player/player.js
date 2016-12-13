@@ -54,9 +54,7 @@ export default class EdgeRadioPlayer {
 
       hls.on(Hls.Events.LEVEL_LOADED, (event,data) => {
         if(this.streamStarted) {
-          this.playlist.getCurrentSong().then((currentSong) => {
-            this.interface.setCurrentSong(currentSong);
-          });
+          this.updateSong();
         }
       });
     } else if(!this.streamStarted) {
@@ -67,6 +65,12 @@ export default class EdgeRadioPlayer {
         this.interface.playPauseControl.classList.add('paused');
       }
     }
+  }
+
+  updateSong() {
+    this.playlist.getCurrentSong().then((currentSong) => {
+      this.interface.setCurrentSong(currentSong);
+    });
   }
 
   initConfig(config) {

@@ -53,6 +53,7 @@ export default class PlayerInterface {
       this.playerController.startStream();
     } else {
       if(this.player.paused) {
+        this.playerController.updateSong();
         this.player.play();
         this.playPauseControl.classList.remove('paused');
       } else {

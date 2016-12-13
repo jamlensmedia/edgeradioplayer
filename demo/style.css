@@ -46,10 +46,16 @@ body {
 and (min-device-width : 375px)
 and (max-device-width : 667px)
 and (orientation : portrait) {
+    #edge-radio-player-logo-image {
+        padding: 5px;
+    }
     #edge-radio-player-display {
-        padding: 4px 10px 4px 10px;
+        padding: 5px 10px 5px 10px;
         -webkit-marquee: auto small infinite alternate normal;
         overflow-x: -webkit-marquee;
+    }
+    #edge-radio-player-display-label {
+        display: none;
     }
 }
 
@@ -66,8 +72,8 @@ and (orientation : portrait) {
 }
 
 #edge-radio-player-logo-image {
-    padding: 2px;
-    height: 36px;
+    padding: 4px;
+    height: 28px;
 }
 
 #edge-radio-player-control-container {
