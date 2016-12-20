@@ -21,7 +21,12 @@
 </html>
 ```
 
+## Actions
 
+Play audio file (file location, audio tag)
+```javascript
+edgeRadioPlayer.playAudio('sample.mp3', 'Sample Audio - Sample')
+```
 
 ## Events
 
