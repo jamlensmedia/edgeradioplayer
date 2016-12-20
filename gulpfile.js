@@ -17,6 +17,8 @@ var watchify = require('watchify');
 var babel = require('babelify');
 var webserver = require('gulp-webserver');
 
+var css2js = require("gulp-css2js");
+
 gulp.task('changelog', function () {
   return gulp.src('CHANGELOG.md', {
     buffer: false
@@ -90,8 +92,10 @@ gulp.task('release', function (callback) {
 });
 
 function compile(watch) {
-  var bundler = watchify(browserify('./src/edgeRadioPlayer.js', { debug: true })
-    .transform("babelify", {presets: ["es2015"]}));
+  var bundler = watchify(
+    browserify('./src/edgeRadioPlayer.js', { debug: true })
+      .transform('browserify-css', {global: true})
+      .transform("babelify", {presets: ["es2015"]}));
 
   function rebundle() {
     bundler.bundle()

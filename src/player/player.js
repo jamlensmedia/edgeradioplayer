@@ -45,14 +45,13 @@ export default class EdgeRadioPlayer {
 
   startStream() {
     if(this.firstLoad === true && this.service.radioConfig.autoplay == "false") {
-      console.log('dont autoplay');
+      this.interface.playPauseControl.classList.add('paused');
       this.firstLoad = false;
     } else {
       if(Hls.isSupported() && !this.streamStarted) {
         var config = {
           debug: false
         };
-        console.log(this.service.radioConfig.streamUrl);
         var hls = new Hls(config);
         hls.loadSource(this.service.radioConfig.streamUrl);
         hls.attachMedia(this.interface.player);
