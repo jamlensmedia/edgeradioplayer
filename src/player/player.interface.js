@@ -16,11 +16,13 @@ export default class PlayerInterface {
     this.player = document.createElement('audio');
     this.container.appendChild(this.player);
     this.container.classList.add('edge-radio-player-container');
+    this.container.style.background = this.service.radioConfig.background;
   }
 
   createControls() {
     this.controlContainer = document.createElement('div');
     this.controlContainer.id = 'edge-radio-player-control-container';
+    this.controlContainer.style.background = this.service.radioConfig.background;
     this.container.appendChild(this.controlContainer);
 
     this.playPauseControl = document.createElement('div');
@@ -39,6 +41,7 @@ export default class PlayerInterface {
 
     this.volumeSliderContainer = document.createElement('div');
     this.volumeSliderContainer.id = 'edge-radio-player-volume-slider-container';
+    this.volumeSliderContainer.style.background = this.service.radioConfig.background;
     this.controlContainer.appendChild(this.volumeSliderContainer);
 
     this.volumeSlider = document.createElement('div');
@@ -47,6 +50,7 @@ export default class PlayerInterface {
     this.volumeSliderContainer.addEventListener('click', (event) => {
       this.updateVolume(event);
     });
+    this.volume(Math.abs(this.service.radioConfig.startingVolume - 100));
   }
 
   playPause() {
@@ -114,8 +118,6 @@ export default class PlayerInterface {
     this.container.appendChild(imageContainer);
 
     let logoLink = document.createElement('a');
-    console.log(this.service.radioConfig);
-    console.log(this.service.radioConfig.logoLink);
     logoLink.href = this.service.radioConfig.logoLink;
     logoLink.target = '_blank';
 

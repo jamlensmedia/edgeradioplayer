@@ -15,9 +15,11 @@ export default class PlayerService {
           if (err) console.log(err);
           let serverConfig = JSON.parse(body);
           this.radioConfig = {
+            startingVolume: parseInt(serverConfig.starting_volume) || 100,
+            autoplay: serverConfig.autoplay || "true",
             streamUrl: serverConfig.stream_url,
             streamPlaylistUrl: serverConfig.stream_playlist,
-            logoImage: serverConfig.logo_image || 'edgeradio-logo-small.png',
+            logoImage: serverConfig.radio_logo_url || 'edgeradio-logo-small.png',
             logoLink: serverConfig.logo_link || 'http://www.edgestreamingradio.com',
             background: serverConfig.radio_background || '#344557',
           };

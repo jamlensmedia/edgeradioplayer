@@ -22,6 +22,7 @@ export default class EdgeRadioPlayer {
       disableCss: false
     };
     this.streamStarted = false;
+    this.firstLoad = true;
 
     this.config = this.initConfig(config);
     this.initPlayer(element, radioId);
@@ -43,31 +44,37 @@ export default class EdgeRadioPlayer {
   }
 
   startStream() {
-    if(Hls.isSupported() && !this.streamStarted) {
-      var config = {
-        debug: false
-      };
-      var hls = new Hls(config);
-      hls.loadSource(this.service.radioConfig.streamUrl);
-      hls.attachMedia(this.interface.player);
-      hls.on(Hls.Events.MANIFEST_PARSED,() => {
-        this.streamStarted = true;
-        this.interface.player.play();
-        this.interface.playPauseControl.classList.remove('paused');
-      });
+    if(this.firstLoad === true && this.service.radioConfig.autoplay == "false") {
+      console.log('dont autoplay');
+      this.firstLoad = false;
+    } else {
+      if(Hls.isSupported() && !this.streamStarted) {
+        var config = {
+          debug: false
+        };
+        console.log(this.service.radioConfig.streamUrl);
+        var hls = new Hls(config);
+        hls.loadSource(this.service.radioConfig.streamUrl);
+        hls.attachMedia(this.interface.player);
+        hls.on(Hls.Events.MANIFEST_PARSED,() => {
+          this.streamStarted = true;
+          this.interface.player.play();
+          this.interface.playPauseControl.classList.remove('paused');
+        });
 
-      hls.on(Hls.Events.LEVEL_LOADED, (event,data) => {
-        if(this.streamStarted) {
-          this.updateSong(data.stats);
+        hls.on(Hls.Events.LEVEL_LOADED, (event,data) => {
+          if(this.streamStarted) {
+            this.updateSong(data.stats);
+          }
+        });
+        this.hls = hls;
+      } else if(!this.streamStarted) {
+        this.streamStarted = true;
+        this.interface.player.src = this.service.radioConfig.streamUrl;
+        this.interface.playPause();
+        if(this.interface.player.paused) {
+          this.interface.playPauseControl.classList.add('paused');
         }
-      });
-      this.hls = hls;
-    } else if(!this.streamStarted) {
-      this.streamStarted = true;
-      this.interface.player.src = this.service.radioConfig.streamUrl;
-      this.interface.playPause();
-      if(this.interface.player.paused) {
-        this.interface.playPauseControl.classList.add('paused');
       }
     }
   }
