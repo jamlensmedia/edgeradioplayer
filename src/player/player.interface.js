@@ -114,6 +114,8 @@ export default class PlayerInterface {
     this.container.appendChild(imageContainer);
 
     let logoLink = document.createElement('a');
+    console.log(this.service.radioConfig);
+    console.log(this.service.radioConfig.logoLink);
     logoLink.href = this.service.radioConfig.logoLink;
     logoLink.target = '_blank';
 

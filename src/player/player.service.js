@@ -10,18 +10,19 @@ export default class PlayerService {
 
   getRadioConfig() {
     let promise = new Promise((resolve, reject) => {
-      setTimeout(() => {
-        this.radioConfig = {
-          streamUrl: "http://edgeradio.streamon.fm/hlsts/EDGERADIO.m3u8",
-          logoImage: "edgeradio-logo-small.png",
-          logoLink: "http://www.edgestreamingradio.com"
-        };
-        resolve();
-      }, 500);
-      // request.get('server.json' + this.radioId, function (err, res, body) {
-      //   if (err) console.log(err)
-      //   console.log(body)
-      // });
+      request.get('http://edgeradio.pairserver.com/wp-json/wp/v2/radio/' + this.radioId,
+         (err, res, body) => {
+          if (err) console.log(err);
+          let serverConfig = JSON.parse(body);
+          this.radioConfig = {
+            streamUrl: serverConfig.stream_url,
+            streamPlaylistUrl: serverConfig.stream_playlist,
+            logoImage: serverConfig.logo_image || 'edgeradio-logo-small.png',
+            logoLink: serverConfig.logo_link || 'http://www.edgestreamingradio.com',
+            background: serverConfig.radio_background || '#344557',
+          };
+          resolve();
+        });
     });
     return promise
   };

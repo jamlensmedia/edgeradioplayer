@@ -79,7 +79,7 @@ export default class EdgeRadioPlayer {
     }
   }
 
-  updateSong(stats) {
+  updateSong(stats, force) {
     this.playlist.getCurrentSong(stats).then((currentSong) => {
       this.interface.setCurrentSong(currentSong);
     });
