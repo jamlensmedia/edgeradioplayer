@@ -21,6 +21,10 @@ export default class EdgeRadioPlayer {
     };
     this.streamStarted = false;
     this.firstLoad = true;
+    this.tritonCurrentSong = {
+      TPE1: '',
+      TIT2: ''
+    };
 
     this.config = this.initConfig(config);
     this.initPlayer(element, radioId);
@@ -95,13 +99,14 @@ export default class EdgeRadioPlayer {
     }
   }
 
+
   onTritonPlayerReady() {
     this.player.addEventListener( 'track-cue-point', (e) => {
       this.onTrackCuePoint(e)
     } );
     this.player.addEventListener( 'list-loaded', (e) => this.onListLoaded(e) );
     this.player.NowPlayingApi.load( {
-      mount:'WCBSFM',
+      mount:this.service.radioConfig.streamUrl,
       hd:true,
       numberToFetch:10,
       eventType:'track'
@@ -111,6 +116,9 @@ export default class EdgeRadioPlayer {
   }
 
   tritonPlay() {
+    if(this.tritonCurrentSong.TPE1 !== "") {
+      this.interface.setCurrentSong(this.tritonCurrentSong);
+    }
     this.player.play( {mount: this.service.radioConfig.streamUrl} );
   }
 
@@ -138,8 +146,9 @@ export default class EdgeRadioPlayer {
       TPE1: e.data.cuePoint.artistName,
       TIT2: e.data.cuePoint.cueTitle
     };
+    this.tritonCurrentSong = currentTrack;
     console.log(currentTrack);
-    this.interface.setCurrentSong(currentTrack);
+    this.interface.setCurrentSong(this.tritonCurrentSong);
     //Display now playing information in the "onair" div element.
   }
 

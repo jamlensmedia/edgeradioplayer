@@ -9,6 +9,10 @@ body {
     font-family: 'Roboto Condensed', sans-serif;
 }
 
+#tdplayer_ondemand {
+    display: none;
+}
+
 .audio-button {
     padding: 10px;
     text-align: center;
