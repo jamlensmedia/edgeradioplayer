@@ -19,6 +19,7 @@ export default class PlayerService {
             autoplay: serverConfig.autoplay || "true",
             streamUrl: serverConfig.stream_url,
             streamPlaylistUrl: serverConfig.stream_playlist,
+            type: serverConfig.type,
             logoImage: serverConfig.radio_logo_url || 'edgeradio-logo-small.png',
             logoLink: serverConfig.logo_link || 'http://www.edgestreamingradio.com',
             background: serverConfig.radio_background || '#344557',

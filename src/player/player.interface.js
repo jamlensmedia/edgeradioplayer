@@ -14,7 +14,9 @@ export default class PlayerInterface {
 
   createPlayer() {
     this.player = document.createElement('audio');
+    this.player.id = 'edge-radio-player-element';
     this.container.appendChild(this.player);
+    this.container.id = 'edge-radio-player-container';
     this.container.classList.add('edge-radio-player-container');
     this.container.style.background = this.service.radioConfig.background;
   }
@@ -54,17 +56,28 @@ export default class PlayerInterface {
   }
 
   playPause() {
-    if(!this.playerController.streamStarted) {
-      this.playerController.startStream();
-    } else {
-      if(this.player.paused) {
-        this.playerController.updateSong();
-        this.player.play();
+    if(this.service.radioConfig.type === 'streamOn') {
+      if(!this.playerController.streamStarted) {
+        this.playerController.startStream();
+      } else {
+        if(this.player.paused) {
+          this.playerController.updateSong();
+          this.player.play();
+          this.playPauseControl.classList.remove('paused');
+        } else {
+          this.player.pause();
+          this.playPauseControl.classList.add('paused');
+          this.playerController.stopStream();
+        }
+      }
+    } else if(this.service.radioConfig.type === 'triton') {
+      if(this.playerController.player.MediaElement.isPaused()) {
+        this.player.pause();
+        this.playerController.player.resume();
         this.playPauseControl.classList.remove('paused');
       } else {
-        this.player.pause();
+        this.playerController.tritonPause();
         this.playPauseControl.classList.add('paused');
-        this.playerController.stopStream();
       }
     }
   };
@@ -95,7 +108,11 @@ export default class PlayerInterface {
 
   volume(playbackVolume) {
     this.volumeSlider.style.top = playbackVolume + 'px';
-    this.player.volume = Math.abs(playbackVolume - 100)/100;
+    let newVolume = Math.abs(playbackVolume - 100)/100;
+    if(this.service.radioConfig.type === 'triton') {
+      this.playerController.tritonSetVolume(newVolume);
+    }
+    this.player.volume = newVolume;
   };
 
   createDisplay() {

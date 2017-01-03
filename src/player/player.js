@@ -5,8 +5,6 @@ import PlayerPlaylist from './player.playlist';
 import Hls from 'hls.js';
 import PlayerService from './player.service';
 
-
-
 export default class EdgeRadioPlayer {
   constructor(element, radioId, config) {
     if (!element) {
@@ -26,8 +24,9 @@ export default class EdgeRadioPlayer {
 
     this.config = this.initConfig(config);
     this.initPlayer(element, radioId);
-
   };
+
+
 
   initPlayer(element, radioId) {
     this.service = new PlayerService(radioId);
@@ -35,11 +34,14 @@ export default class EdgeRadioPlayer {
       this.interface = new PlayerInterface(element, this.service, this);
       this.playlist = new PlayerPlaylist(this);
 
-      this.startStream();
 
-      this.playlist.getCurrentSong().then((currentSong) => {
-        this.interface.setCurrentSong(currentSong);
-      });
+      if(this.service.radioConfig.type === 'streamOn') {
+        this.playlist.getCurrentSong().then((currentSong) => {
+          this.interface.setCurrentSong(currentSong);
+        });
+      }
+
+      this.startStream();
     });
   }
 
@@ -47,7 +49,7 @@ export default class EdgeRadioPlayer {
     if(this.firstLoad === true && this.service.radioConfig.autoplay == "false") {
       this.interface.playPauseControl.classList.add('paused');
       this.firstLoad = false;
-    } else {
+    } else if(this.service.radioConfig.type === 'streamOn') {
       if(Hls.isSupported() && !this.streamStarted) {
         var config = {
           debug: false
@@ -75,7 +77,70 @@ export default class EdgeRadioPlayer {
           this.interface.playPauseControl.classList.add('paused');
         }
       }
+    } else if(this.service.radioConfig.type === 'triton') {
+      //Player SDK is ready to be used, this is where you can instantiate a new TDSdk instance.
+      //Player configuration: list of modules
+      var tdPlayerConfig = {
+        coreModules: [{
+          id: 'MediaPlayer',
+          playerId: this.interface.container.id,
+          techPriority:['Html5', 'Flash']
+        },{
+          id: 'NowPlayingApi'
+        }],
+        playerReady: (e) => this.onTritonPlayerReady(e)
+      };
+      //Player instance
+      this.player = new TDSdk( tdPlayerConfig );
     }
+  }
+
+  onTritonPlayerReady() {
+    this.player.addEventListener( 'track-cue-point', (e) => {
+      this.onTrackCuePoint(e)
+    } );
+    this.player.addEventListener( 'list-loaded', (e) => this.onListLoaded(e) );
+    this.player.NowPlayingApi.load( {
+      mount:'WCBSFM',
+      hd:true,
+      numberToFetch:10,
+      eventType:'track'
+    } );
+    this.tritonSetVolume(Math.abs(this.service.radioConfig.startingVolume - 100)/100);
+    this.tritonPlay();
+  }
+
+  tritonPlay() {
+    this.player.play( {mount: this.service.radioConfig.streamUrl} );
+  }
+
+  tritonPause() {
+    this.player.pause();
+  }
+
+  tritonSetVolume(volume) {
+    if(this.player) {
+      this.player.setVolume(volume);
+    }
+  }
+
+  onListLoaded( e )
+  {
+    // console.log( 'list-loaded' );
+    // console.log( e );
+    //Display now playing information in the "onair" div element.
+    //document.getElementById('onair').innerHTML = 'Artist: ' + e.data.cuePoint.artistName + '<BR>Title: ' + e.data.cuePoint.cueTitle;
+  }
+
+  onTrackCuePoint( e )
+  {
+    let currentTrack = {
+      TPE1: e.data.cuePoint.artistName,
+      TIT2: e.data.cuePoint.cueTitle
+    };
+    console.log(currentTrack);
+    this.interface.setCurrentSong(currentTrack);
+    //Display now playing information in the "onair" div element.
   }
 
   stopStream() {
@@ -99,7 +164,11 @@ export default class EdgeRadioPlayer {
   }
 
   playAudio(url, name) {
-    this.streamStarted = false;
+    if(this.service.radioConfig.type === 'triton'){
+      this.player.pause();
+    } else {
+      this.streamStarted = false;
+    }
     this.interface.setDisplayLabel('Playing: ');
     this.interface.setDisplayContent(name);
     this.interface.player.src = url;
@@ -107,8 +176,12 @@ export default class EdgeRadioPlayer {
 
     this.interface.player.addEventListener("ended", () =>
     {
-      this.startStream();
-      this.interface.player.play();
+      if(this.service.radioConfig.type === 'triton'){
+        this.tritonPlay();
+      } else {
+        this.startStream();
+        this.interface.player.play();
+      }
     });
   }
 }
