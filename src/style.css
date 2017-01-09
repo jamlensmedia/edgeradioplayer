@@ -1,12 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto+Condensed');
 
 body {
-    /*background: url(seacoastsample.png) no-repeat;*/
-    background-size: cover;
-    background-position-y: 35px;
-
     padding-top: 90px;
-    font-family: 'Roboto Condensed', sans-serif;
 }
 
 #tdplayer_ondemand {
@@ -25,6 +20,7 @@ body {
 }
 
 .edge-radio-player-container {
+    box-sizing: content-box;
     position: fixed;
     top: 0;
     left: 0;
@@ -47,6 +43,7 @@ body {
     text-transform: uppercase;
     padding: 4px;
     white-space: nowrap;
+    line-height: 26px;
 }
 
 @media only screen
@@ -86,11 +83,13 @@ and (orientation : portrait) {
     left: 0;
     width: 100px;
     text-align: center;
+    box-sizing: content-box;
 }
 
 #edge-radio-player-logo-image {
     padding: 4px;
     height: 28px;
+    box-sizing: content-box;
 }
 
 #edge-radio-player-control-container {
