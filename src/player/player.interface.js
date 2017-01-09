@@ -121,8 +121,13 @@ export default class PlayerInterface {
     this.container.appendChild(this.display);
 
     this.displayLabel = document.createElement('span');
+    this.displayLabel.id = 'edge-radio-player-display-label-white';
+    this.setDisplayLabel('On Demand');
+    this.display.appendChild(this.displayLabel);
+
+    this.displayLabel = document.createElement('span');
     this.displayLabel.id = 'edge-radio-player-display-label';
-    this.setDisplayLabel('Live Radio: ');
+    this.setDisplayLabel(' Radio: ');
     this.display.appendChild(this.displayLabel);
 
     this.displaySong = document.createElement('span');

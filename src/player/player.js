@@ -142,14 +142,18 @@ export default class EdgeRadioPlayer {
 
   onTrackCuePoint( e )
   {
-    let currentTrack = {
-      TPE1: e.data.cuePoint.artistName,
-      TIT2: e.data.cuePoint.cueTitle
-    };
-    this.tritonCurrentSong = currentTrack;
-    console.log(currentTrack);
-    this.interface.setCurrentSong(this.tritonCurrentSong);
-    //Display now playing information in the "onair" div element.
+    console.log(e);
+    if(e.data) {
+      console.log(e.data.cuePoint);
+      if(e.data.cuePoint) {
+        let currentTrack = {
+          TPE1: e.data.cuePoint.artistName,
+          TIT2: e.data.cuePoint.cueTitle
+        };
+        this.tritonCurrentSong = currentTrack;
+        this.interface.setCurrentSong(this.tritonCurrentSong);
+      }
+    }
   }
 
   stopStream() {
