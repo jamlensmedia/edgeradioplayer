@@ -72,6 +72,7 @@ export default class PlayerInterface {
       }
     } else if(this.service.radioConfig.type === 'triton') {
       if(this.playerController.player.MediaElement.isPaused()) {
+        console.log('pausing');
         this.player.pause();
         this.playerController.player.resume();
         this.playPauseControl.classList.remove('paused');
@@ -120,14 +121,16 @@ export default class PlayerInterface {
     this.display.id = 'edge-radio-player-display';
     this.container.appendChild(this.display);
 
-    this.displayLabel = document.createElement('span');
+    this.displayLabel = document.createElement('a');
+    this.displayLabel.href = this.service.radioConfig.whiteTextLink;
     this.displayLabel.id = 'edge-radio-player-display-label-white';
-    this.setDisplayLabel('On Demand');
+    this.displayLabel.target = '_blank';
+    this.setDisplayLabel(this.service.radioConfig.whiteText);
     this.display.appendChild(this.displayLabel);
 
     this.displayLabel = document.createElement('span');
     this.displayLabel.id = 'edge-radio-player-display-label';
-    this.setDisplayLabel(' Radio: ');
+    this.setDisplayLabel(this.service.radioConfig.orangeText + ' ');
     this.display.appendChild(this.displayLabel);
 
     this.displaySong = document.createElement('span');
@@ -149,6 +152,27 @@ export default class PlayerInterface {
     logoLink.appendChild(this.displayLogo);
 
     imageContainer.appendChild(logoLink);
+    if(this.service.radioConfig.adLink && this.service.radioConfig.adImage) {
+      this.createAd();
+    }
+  }
+
+  createAd() {
+    let adContainer = document.createElement('div');
+    adContainer.id = 'edge-radio-player-ad-container';
+    this.container.appendChild(adContainer);
+
+    let adLink = document.createElement('a');
+    adLink.href = this.service.radioConfig.adLink;
+    adLink.target = '_blank';
+
+    this.displayAd = document.createElement('img');
+    this.displayAd.id = 'edge-radio-player-ad';
+    this.displayAd.src = this.service.radioConfig.adImage;
+    adLink.appendChild(this.displayAd);
+
+    adContainer.appendChild(adLink);
+    this.container.appendChild(adContainer);
   }
 
   setDisplayContent(content) {

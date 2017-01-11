@@ -71,10 +71,12 @@ and (orientation : portrait) {
 
 #edge-radio-player-display-label-white {
     color: #fff;
+    text-decoration: none;
 }
 
 #edge-radio-player-display-label {
     color: #ea8821;
+    margin-left: 20px;
 }
 
 #edge-radio-player-logo-image-container {
@@ -92,12 +94,27 @@ and (orientation : portrait) {
     box-sizing: content-box;
 }
 
-#edge-radio-player-control-container {
+#edge-radio-player-ad-container {
     position: absolute;
     top: 0;
     right: 0;
-    bottom: 0;
     width: 100px;
+    text-align: center;
+    box-sizing: content-box;
+}
+
+#edge-radio-player-ad {
+    padding: 4px;
+    height: 28px;
+    box-sizing: content-box;
+}
+
+#edge-radio-player-control-container {
+    position: absolute;
+    top: 0;
+    right: 102px;
+    bottom: 0;
+    width: 74px;
 
     background: #344557;
 }

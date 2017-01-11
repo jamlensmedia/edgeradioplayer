@@ -28,9 +28,21 @@ export default class EdgeRadioPlayer {
 
     this.config = this.initConfig(config);
     this.initPlayer(element, radioId);
+
+    this.getMp3Links();
   };
 
-
+  getMp3Links() {
+    var links = document.body.getElementsByTagName("a");
+    for (var i = 0; i < links.length; ++i) {
+      if(links[i].href.indexOf('.mp3') !== -1) {
+        links[i].addEventListener('click', (event) => {
+          event.preventDefault();
+          this.playAudio(event.target.href, event.target.text);
+        })
+      }
+    }
+  }
 
   initPlayer(element, radioId) {
     this.service = new PlayerService(radioId);
@@ -119,10 +131,12 @@ export default class EdgeRadioPlayer {
     if(this.tritonCurrentSong.TPE1 !== "") {
       this.interface.setCurrentSong(this.tritonCurrentSong);
     }
+    console.log('triton player.play');
     this.player.play( {mount: this.service.radioConfig.streamUrl} );
   }
 
   tritonPause() {
+    console.log('triton player.pause');
     this.player.pause();
   }
 
@@ -146,10 +160,13 @@ export default class EdgeRadioPlayer {
     if(e.data) {
       console.log(e.data.cuePoint);
       if(e.data.cuePoint) {
-        let currentTrack = {
-          TPE1: e.data.cuePoint.artistName,
-          TIT2: e.data.cuePoint.cueTitle
-        };
+        if(typeof e.data.cuePoint.artistName === 'string' &&
+          typeof e.data.cuePoint.cueTitle === 'string') {
+          let currentTrack = {
+            TPE1: e.data.cuePoint.artistName,
+            TIT2: e.data.cuePoint.cueTitle
+          };
+        }
         this.tritonCurrentSong = currentTrack;
         this.interface.setCurrentSong(this.tritonCurrentSong);
       }
