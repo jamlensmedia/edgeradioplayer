@@ -131,6 +131,7 @@ export default class EdgeRadioPlayer {
     if(this.tritonCurrentSong.TPE1 !== "") {
       this.interface.setCurrentSong(this.tritonCurrentSong);
     }
+    console.log(this.player);
     console.log('triton player.play');
     this.player.play( {mount: this.service.radioConfig.streamUrl} );
   }
@@ -166,8 +167,8 @@ export default class EdgeRadioPlayer {
             TPE1: e.data.cuePoint.artistName,
             TIT2: e.data.cuePoint.cueTitle
           };
+          this.tritonCurrentSong = currentTrack;
         }
-        this.tritonCurrentSong = currentTrack;
         this.interface.setCurrentSong(this.tritonCurrentSong);
       }
     }

@@ -92,6 +92,8 @@ gulp.task('release', function (callback) {
 });
 
 function compile(watch) {
+  process.env.NODE_ENV = 'production';
+
   var bundler = watchify(
     browserify('./src/edgeRadioPlayer.js', { debug: true })
       .transform('browserify-css', {global: true})
@@ -102,6 +104,7 @@ function compile(watch) {
       .on('error', function(err) { console.error(err); this.emit('end'); })
       .pipe(source('edge-radio-player-1.0.0.min.js'))
       .pipe(buffer())
+      .pipe(uglify())
       .pipe(sourcemaps.init({ loadMaps: true }))
       .pipe(sourcemaps.write('./'))
       .pipe(gulp.dest('./dist/'));
