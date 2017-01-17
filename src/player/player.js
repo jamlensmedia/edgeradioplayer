@@ -116,6 +116,14 @@ export default class EdgeRadioPlayer {
     this.player.addEventListener( 'track-cue-point', (e) => {
       this.onTrackCuePoint(e)
     } );
+    this.player.addEventListener( 'speech-cue-point', (e) => {
+      this.onTrackCuePoint(e)
+    } );
+    this.player.addEventListener( 'ad-break-cue-point', (e) => {
+      console.log('ad cue');
+      this.onTrackAdCuePoint(e)
+    } );
+
     this.player.addEventListener( 'list-loaded', (e) => this.onListLoaded(e) );
     this.player.NowPlayingApi.load( {
       mount:this.service.radioConfig.streamUrl,
@@ -123,6 +131,10 @@ export default class EdgeRadioPlayer {
       numberToFetch:10,
       eventType:'track'
     } );
+    this.tritonCurrentSong = {
+      TPE1: this.service.radioConfig.title,
+      TIT2: ''
+    };
     this.tritonSetVolume(Math.abs(this.service.radioConfig.startingVolume - 100)/100);
     this.tritonPlay();
   }
@@ -155,6 +167,23 @@ export default class EdgeRadioPlayer {
     // console.log( e );
     //Display now playing information in the "onair" div element.
     //document.getElementById('onair').innerHTML = 'Artist: ' + e.data.cuePoint.artistName + '<BR>Title: ' + e.data.cuePoint.cueTitle;
+  }
+
+  onTrackAdCuePoint(e) {
+    console.log(e);
+    if(e.data) {
+      console.log(e.data.adBreakData);
+      if(e.data.adBreakData) {
+        if(typeof e.data.adBreakData.cueTitle === 'string') {
+          let currentTrack = {
+            TPE1: e.data.adBreakData.cueTitle,
+            TIT2: ''
+          };
+          this.tritonCurrentSong = currentTrack;
+        }
+        this.interface.setCurrentSong(this.tritonCurrentSong);
+      }
+    }
   }
 
   onTrackCuePoint( e )

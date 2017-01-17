@@ -17,6 +17,7 @@ export default class PlayerService {
           startingVolume: parseInt(serverConfig.starting_volume) || 100,
           autoplay: serverConfig.autoplay || "true",
           streamUrl: serverConfig.stream_url,
+          title: serverConfig.title.rendered || 'Loading...',
           whiteText: serverConfig.white_text || "On Demand",
           whiteTextLink: serverConfig.white_text_link || "http://www.seacoastonline.com/news/20161209/edge-radio-audio-archives",
           orangeText: serverConfig.orange_text || "Radio:",

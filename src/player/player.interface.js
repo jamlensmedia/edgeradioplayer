@@ -207,7 +207,12 @@ export default class PlayerInterface {
   }
 
   setCurrentSong(currentSong) {
-    this.setDisplayContent(currentSong.TPE1 + ' - ' + currentSong.TIT2);
+    let displayContent = currentSong.TPE1;
+    if(currentSong.TIT2 !== '') {
+      displayContent += ' - ' + currentSong.TIT2;
+    }
+
+    this.setDisplayContent(displayContent);
   }
 };
 
