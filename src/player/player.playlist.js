@@ -21,7 +21,7 @@ export default class PlayerPlaylist {
     });
     return promise;
   };
-
+  
   getPlayerMetadata() {
     let promise = new Promise((resolve, reject) => {
       request.get(this.playerController.service.radioConfig.streamPlaylistUrl,
