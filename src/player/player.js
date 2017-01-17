@@ -46,7 +46,7 @@ export default class EdgeRadioPlayer {
 
   initPlayer(element, radioId) {
     this.service = new PlayerService(radioId);
-    this.service.getRadioConfig().then(() => {
+    this.service.getRadioConfig(() => {
       this.interface = new PlayerInterface(element, this.service, this);
       this.playlist = new PlayerPlaylist(this);
 
@@ -128,6 +128,7 @@ export default class EdgeRadioPlayer {
   }
 
   tritonPlay() {
+    console.log(this.tritonCurrentSong);
     if(this.tritonCurrentSong.TPE1 !== "") {
       this.interface.setCurrentSong(this.tritonCurrentSong);
     }
@@ -138,7 +139,8 @@ export default class EdgeRadioPlayer {
 
   tritonPause() {
     console.log('triton player.pause');
-    this.player.pause();
+    this.player.stop();
+    console.log(this.player);
   }
 
   tritonSetVolume(volume) {
@@ -189,14 +191,14 @@ export default class EdgeRadioPlayer {
 
   initConfig(config) {
     config = config || {};
-    Object.assign(this.defaultConfig, config);
+    // Object.assign(this.defaultConfig, config);
 
     return config;
   }
 
   playAudio(url, name) {
     if(this.service.radioConfig.type === 'triton'){
-      this.player.pause();
+      this.tritonPause();
     } else {
       this.streamStarted = false;
     }
