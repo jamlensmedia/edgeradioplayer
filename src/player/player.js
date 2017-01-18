@@ -36,12 +36,10 @@ export default class EdgeRadioPlayer {
   };
 
   getMp3Links() {
-    console.log("get mp3 links");
     var links = document.body.getElementsByTagName("a");
     for (var i = 0; i < links.length; ++i) {
       if(links[i].href.indexOf('.mp3') !== -1) {
         if (!links[i].radioAttached) {
-          console.log("attaching");
           links[i].radioAttached = true;
           links[i].addEventListener('click', (event) => {
             event.preventDefault();
