@@ -11,7 +11,7 @@ export default class PlayerService {
   getRadioConfig(callback) {
     request.get('http://edgeradio.pairserver.com/wp-json/wp/v2/radio/' + this.radioId,
       (err, res, body) => {
-      if (err) console.log(err);
+      if (err && console) console.error(err);
         let serverConfig = JSON.parse(body);
         this.radioConfig = {
           startingVolume: parseInt(serverConfig.starting_volume) || 100,

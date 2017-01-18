@@ -31,6 +31,7 @@
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
     "gulp-bump": "^2.5.1",
+    "gulp-concat": "^2.6.1",
     "gulp-conventional-changelog": "^1.1.0",
     "gulp-css2js": "^1.0.2",
     "gulp-git": "^1.12.0",

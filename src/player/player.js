@@ -29,17 +29,25 @@ export default class EdgeRadioPlayer {
     this.config = this.initConfig(config);
     this.initPlayer(element, radioId);
 
+    setInterval(() => {
+      this.getMp3Links();
+    }, 1000);
     this.getMp3Links();
   };
 
   getMp3Links() {
+    console.log("get mp3 links");
     var links = document.body.getElementsByTagName("a");
     for (var i = 0; i < links.length; ++i) {
       if(links[i].href.indexOf('.mp3') !== -1) {
-        links[i].addEventListener('click', (event) => {
-          event.preventDefault();
-          this.playAudio(event.target.href, event.target.text);
-        })
+        if (!links[i].radioAttached) {
+          console.log("attaching");
+          links[i].radioAttached = true;
+          links[i].addEventListener('click', (event) => {
+            event.preventDefault();
+            this.playAudio(event.target.href, event.target.text);
+          })
+        }
       }
     }
   }
@@ -120,7 +128,6 @@ export default class EdgeRadioPlayer {
       this.onTrackCuePoint(e)
     } );
     this.player.addEventListener( 'ad-break-cue-point', (e) => {
-      console.log('ad cue');
       this.onTrackAdCuePoint(e)
     } );
 
@@ -140,19 +147,14 @@ export default class EdgeRadioPlayer {
   }
 
   tritonPlay() {
-    console.log(this.tritonCurrentSong);
     if(this.tritonCurrentSong.TPE1 !== "") {
       this.interface.setCurrentSong(this.tritonCurrentSong);
     }
-    console.log(this.player);
-    console.log('triton player.play');
     this.player.play( {mount: this.service.radioConfig.streamUrl} );
   }
 
   tritonPause() {
-    console.log('triton player.pause');
     this.player.stop();
-    console.log(this.player);
   }
 
   tritonSetVolume(volume) {
@@ -163,16 +165,12 @@ export default class EdgeRadioPlayer {
 
   onListLoaded( e )
   {
-    // console.log( 'list-loaded' );
-    // console.log( e );
     //Display now playing information in the "onair" div element.
     //document.getElementById('onair').innerHTML = 'Artist: ' + e.data.cuePoint.artistName + '<BR>Title: ' + e.data.cuePoint.cueTitle;
   }
 
   onTrackAdCuePoint(e) {
-    console.log(e);
     if(e.data) {
-      console.log(e.data.adBreakData);
       if(e.data.adBreakData) {
         if(typeof e.data.adBreakData.cueTitle === 'string') {
           let currentTrack = {
@@ -188,9 +186,7 @@ export default class EdgeRadioPlayer {
 
   onTrackCuePoint( e )
   {
-    console.log(e);
     if(e.data) {
-      console.log(e.data.cuePoint);
       if(e.data.cuePoint) {
         if(typeof e.data.cuePoint.artistName === 'string' &&
           typeof e.data.cuePoint.cueTitle === 'string') {

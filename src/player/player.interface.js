@@ -71,10 +71,7 @@ export default class PlayerInterface {
         }
       }
     } else if(this.service.radioConfig.type === 'triton') {
-      console.log(this.playerController.player);
-      console.log(this.playerController.player.MediaElement.audioNode.paused);
       if(this.playerController.player.MediaElement.audioNode.paused) {
-        console.log('resuming');
         this.player.pause();
         this.playerController.tritonPlay();
         if(this.playerController.tritonCurrentSong.TPE1 !== "") {

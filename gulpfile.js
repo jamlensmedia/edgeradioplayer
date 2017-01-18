@@ -16,6 +16,7 @@ var fs = require('fs');
 var watchify = require('watchify');
 var babel = require('babelify');
 var webserver = require('gulp-webserver');
+var concat = require('gulp-concat');
 
 var css2js = require("gulp-css2js");
 
@@ -102,7 +103,7 @@ function compile(watch) {
   function rebundle() {
     bundler.bundle()
       .on('error', function(err) { console.error(err); this.emit('end'); })
-      .pipe(source('edge-radio-player-1.0.0.min.js'))
+      .pipe(source('edge-radio-player-unbundled.1.0.0.min.js'))
       .pipe(buffer())
       .pipe(uglify())
       .pipe(sourcemaps.init({ loadMaps: true }))
@@ -118,6 +119,10 @@ function compile(watch) {
   }
 
   rebundle();
+
+  gulp.src(['./src/lib/td-sdk.min.js', './dist/edge-radio-player-unbundled.1.0.0.min.js'])
+    .pipe(concat('edge-radio-player-1.0.0.min.js'))
+    .pipe(gulp.dest('./dist/'));
 }
 
 function watch() {
