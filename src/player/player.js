@@ -100,21 +100,39 @@ export default class EdgeRadioPlayer {
         }
       }
     } else if(this.service.radioConfig.type === 'triton') {
-      //Player SDK is ready to be used, this is where you can instantiate a new TDSdk instance.
-      //Player configuration: list of modules
-      var tdPlayerConfig = {
-        coreModules: [{
-          id: 'MediaPlayer',
-          playerId: this.interface.container.id,
-          techPriority:['Html5', 'Flash']
-        },{
-          id: 'NowPlayingApi'
-        }],
-        playerReady: (e) => this.onTritonPlayerReady(e)
-      };
-      //Player instance
-      this.player = new TDSdk( tdPlayerConfig );
+      var imported = document.createElement('script');
+      imported.src = '//sdk.listenlive.co/web/2.9/td-sdk.min.js';
+      document.head.appendChild(imported);
+      this.tritonRetry();
     }
+  }
+
+  tritonRetry() {
+    console.log('trying');
+    if(typeof TDSdk !== 'undefined'){
+      console.log('starting');
+      this.startTriton()
+    } else {
+      console.log('retrying');
+      setTimeout(() => this.tritonRetry(), 300);
+    }
+  }
+
+  startTriton() {
+    //Player SDK is ready to be used, this is where you can instantiate a new TDSdk instance.
+    //Player configuration: list of modules
+    var tdPlayerConfig = {
+      coreModules: [{
+        id: 'MediaPlayer',
+        playerId: this.interface.container.id,
+        techPriority:['Html5', 'Flash']
+      },{
+        id: 'NowPlayingApi'
+      }],
+      playerReady: (e) => this.onTritonPlayerReady(e)
+    };
+    //Player instance
+    this.player = new TDSdk( tdPlayerConfig );
   }
 
 
