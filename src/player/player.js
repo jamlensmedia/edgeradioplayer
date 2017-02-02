@@ -108,12 +108,9 @@ export default class EdgeRadioPlayer {
   }
 
   tritonRetry() {
-    console.log('trying');
     if(typeof TDSdk !== 'undefined'){
-      console.log('starting');
       this.startTriton()
     } else {
-      console.log('retrying');
       setTimeout(() => this.tritonRetry(), 300);
     }
   }
