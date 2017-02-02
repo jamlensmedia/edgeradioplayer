@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>TD Player SDK 2.9 - Simple implementation demo</title>
+</head>
+<body>
+<!-- Player container -->
+<div id="td_container"></div>
+<!-- Now Playing information -->
+<div id="onair"></div>
+<script>
+  var player;
+
+  function initPlayerSDK()
+  {
+    console.log( 'TD Player SDK is ready' );
+
+    //Player SDK is ready to be used, this is where you can instantiate a new TDSdk instance.
+    //Player configuration: list of modules
+    var tdPlayerConfig = {
+      coreModules: [{
+        id: 'MediaPlayer',
+        playerId: 'td_container'
+      }],
+      playerReady: onPlayerReady,
+      configurationError: onConfigurationError,
+      moduleError: onModuleError,
+      adBlockerDetected: onAdBlockerDetected
+    };
+
+    //Player instance
+    player = new TDSdk( tdPlayerConfig );
+  }
+  /* Callback function called to notify that the SDK is ready to be used */
+  function onPlayerReady()
+  {
+    //Listen for 'track-cue-point' event
+    player.addEventListener( 'track-cue-point', onTrackCuePoint );
+    //Play the stream: station is TRITONRADIOMUSIC
+    player.play( {station:'TRITONRADIOMUSIC'} );
+  }
+  /* Callback function called to notify that the player configuration has an error. */
+  function onConfigurationError( e ) {
+    console.log(object);
+    console.log(object.data.errors);
+    //Error code : object.data.errors[0].code
+    //Error message : object.data.errors[0].message
+  }
+  /* Callback function called to notify that a module has not been loaded properly */
+  function onModuleError( object )
+  {
+    console.log(object);
+    console.log(object.data.errors);
+    //Error code : object.data.errors[0].code
+    //Error message : object.data.errors[0].message
+  }
+  /* Callback function called to notify that a new Track CuePoint comes in. */
+  function onTrackCuePoint( e )
+  {
+    console.log( 'onTrackCuePoint' );
+    console.log( e.data.cuePoint );
+    //Display now playing information in the "onair" div element.
+    document.getElementById('onair').innerHTML = 'Artist: ' + e.data.cuePoint.artistName + '<BR>Title: ' + e.data.cuePoint.cueTitle;
+  }
+  /* Callback function called to notify that an Ad-Blocker was detected */
+  function onAdBlockerDetected()
+  {
+    console.log( 'AdBlockerDetected' );
+  }
+</script>
+<script src="//sdk.listenlive.co/web/2.9/td-sdk.min.js"></script>
+<script>initPlayerSDK();</script>
+</body>
+</html>
