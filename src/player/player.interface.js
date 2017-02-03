@@ -137,7 +137,7 @@ export default class PlayerInterface {
 
     this.displaySong = document.createElement('span');
     this.displaySong.id = 'edge-radio-player-display-song';
-    this.setDisplayContent('loading...');
+    this.setDisplayContent('Loading...');
     this.display.appendChild(this.displaySong);
 
     let imageContainer = document.createElement('div');
