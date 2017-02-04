@@ -30,6 +30,8 @@ body {
     background: #344557;
 
     font-family: 'Roboto Condensed', sans-serif;
+    font-weight: bold;
+
     border-bottom: 1px solid #435567;
     z-index: 999999;
 }
@@ -49,6 +51,10 @@ body {
     color: #e8e8e8;
     text-decoration: none;
     text-transform: uppercase;
+}
+
+#edge-radio-player-display-label-white:hover {
+    color: #ea8821;
 }
 
 #edge-radio-player-display-label {
@@ -182,7 +188,7 @@ and (min-device-width : 375px)
 and (max-device-width : 667px)
 and (orientation : portrait) {
     #edge-radio-player-logo-image-container {
-        display: none;
+        width: 70px;
     }
     #edge-radio-player-logo-image {
         padding: 5px;
@@ -194,14 +200,14 @@ and (orientation : portrait) {
         display: none;
     }
     #edge-radio-player-display {
-        left: 10px;
+        left: 70px;
         right: 70px;
         height: 35px;
         overflow: hidden;
         padding: 0;
     }
     #edge-radio-player-control-container {
-        right: 10px;
+        right: 0px;
     }
     #edge-radio-player-display-label {
         display: none;
