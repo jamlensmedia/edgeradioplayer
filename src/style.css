@@ -1,9 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto+Condensed');
 
-body {
-    padding-top: 90px;
-}
-
 #tdplayer_ondemand {
     display: none !important;
 }
@@ -184,8 +180,8 @@ body {
 }
 
 @media only screen
-and (min-device-width : 375px)
-and (max-device-width : 667px)
+and (min-device-width : 300px)
+and (max-device-width : 680px)
 and (orientation : portrait) {
     #edge-radio-player-logo-image-container {
         width: 70px;
