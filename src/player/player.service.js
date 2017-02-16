@@ -23,10 +23,12 @@ export default class PlayerService {
           orangeText: serverConfig.orange_text || "Radio:",
           adImage: serverConfig.ad_image,
           adLink: serverConfig.ad_link,
+          liveLink: serverConfig.radio_live_link || "http://edgeradio.streamon.fm",
           streamPlaylistUrl: serverConfig.stream_playlist,
           type: serverConfig.type,
           logoImage: serverConfig.radio_logo_url || 'edgeradio-logo-small.png',
           logoLink: serverConfig.logo_link || 'http://www.edgestreamingradio.com',
+          liveImage: serverConfig.live_image || 'http://edgeradio.pairserver.com/listen-live.jpg',
           background: serverConfig.radio_background || '#344557',
         };
         callback();

@@ -34,8 +34,8 @@
 
 #edge-radio-player-display {
     position: absolute;
-    left: 100px;
-    right: 100px;
+    left: 170px;
+    right: 170px;
     font-size: 14px;
     color: #e8e8e8;
     padding: 5px;
@@ -44,6 +44,13 @@
 }
 
 #edge-radio-player-display-label-white {
+    padding: 5px;
+    white-space: nowrap;
+    line-height: 26px;
+
+    position: absolute;
+    right: 80px;
+
     color: #e8e8e8;
     text-decoration: none;
     text-transform: uppercase;
@@ -55,7 +62,6 @@
 
 #edge-radio-player-display-label {
     color: #ea8821;
-    margin-left: 20px;
     text-transform: uppercase;
 }
 
@@ -65,6 +71,21 @@
     left: 0;
     width: 100px;
     text-align: center;
+    box-sizing: content-box;
+}
+
+#edge-radio-player-live-image-container {
+    position: absolute;
+    top: 0;
+    left: 100px;
+    width: 64px;
+    text-align: center;
+    box-sizing: content-box;
+}
+
+#edge-radio-player-live-image {
+    padding: 4px;
+    height: 28px;
     box-sizing: content-box;
 }
 
@@ -78,7 +99,7 @@
     position: absolute;
     top: 0;
     right: 0;
-    width: 100px;
+    width: 80px;
     text-align: center;
     box-sizing: content-box;
 }
@@ -92,7 +113,7 @@
 #edge-radio-player-control-container {
     position: absolute;
     top: 0;
-    right: 102px;
+    right: 178px;
     bottom: 0;
     width: 74px;
 

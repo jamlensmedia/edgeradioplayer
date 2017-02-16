@@ -27,17 +27,22 @@ export default class PlayerInterface {
     this.controlContainer.style.background = this.service.radioConfig.background;
     this.container.appendChild(this.controlContainer);
 
-    this.playPauseControl = document.createElement('div');
-    this.playPauseControl.id = 'edge-radio-player-play-pause';
-    this.playPauseControl.addEventListener('click', () => {
-      this.playPause();
-    });
-    this.controlContainer.appendChild(this.playPauseControl);
+    // this.playPauseControl = document.createElement('div');
+    // this.playPauseControl.id = 'edge-radio-player-play-pause';
+    // this.playPauseControl.addEventListener('click', () => {
+    //   this.playPause();
+    // });
+    // this.controlContainer.appendChild(this.playPauseControl);
 
-    this.volumeControl = document.createElement('div');
+    this.volumeControl = document.createElement('a');
+    this.volumeControl.href = this.service.radioConfig.liveLink;
+    this.volumeControl.target = '_blank';
+    this.volumeControl.classList.add('muted');
     this.volumeControl.id = 'edge-radio-player-volume';
     this.volumeControl.addEventListener('click', () => {
-      this.toggleVolume();
+      this.toggleMute();
+
+      // this.toggleVolume();
     });
     this.controlContainer.appendChild(this.volumeControl);
 
@@ -86,11 +91,9 @@ export default class PlayerInterface {
   };
 
   toggleMute() {
-    if(this.player.muted) {
-      this.player.muted = false;
+    if(this.volumeControl.className.indexOf('muted') !== -1) {
       this.volumeControl.classList.remove('muted');
     } else {
-      this.player.muted = true;
       this.volumeControl.classList.add('muted');
     }
   };
@@ -123,13 +126,6 @@ export default class PlayerInterface {
     this.display.id = 'edge-radio-player-display';
     this.container.appendChild(this.display);
 
-    this.displayLabel = document.createElement('a');
-    this.displayLabel.href = this.service.radioConfig.whiteTextLink;
-    this.displayLabel.id = 'edge-radio-player-display-label-white';
-    this.displayLabel.target = '_blank';
-    this.setDisplayLabel(this.service.radioConfig.whiteText);
-    this.display.appendChild(this.displayLabel);
-
     this.displayLabel = document.createElement('span');
     this.displayLabel.id = 'edge-radio-player-display-label';
     this.setDisplayLabel(this.service.radioConfig.orangeText + ' ');
@@ -152,6 +148,28 @@ export default class PlayerInterface {
     this.displayLogo.id = 'edge-radio-player-logo-image';
     this.displayLogo.src = this.service.radioConfig.logoImage;
     logoLink.appendChild(this.displayLogo);
+
+    // listen live
+    let imageLiveContainer = document.createElement('div');
+    imageLiveContainer.id = 'edge-radio-player-live-image-container';
+    this.container.appendChild(imageLiveContainer);
+
+    let liveLink = document.createElement('a');
+    liveLink.href = this.service.radioConfig.liveLink;
+    liveLink.target = '_blank';
+
+    this.displayLive = document.createElement('img');
+    this.displayLive.id = 'edge-radio-player-live-image';
+    this.displayLive.src = this.service.radioConfig.liveImage;
+    liveLink.appendChild(this.displayLive);
+    imageLiveContainer.appendChild(liveLink);
+
+    this.displayLabel = document.createElement('a');
+    this.displayLabel.href = this.service.radioConfig.whiteTextLink;
+    this.displayLabel.id = 'edge-radio-player-display-label-white';
+    this.displayLabel.target = '_blank';
+    this.setDisplayLabel(this.service.radioConfig.whiteText);
+    this.container.appendChild(this.displayLabel);
 
     imageContainer.appendChild(logoLink);
     if(this.service.radioConfig.adLink && this.service.radioConfig.adImage) {
