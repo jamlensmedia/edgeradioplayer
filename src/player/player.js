@@ -182,6 +182,7 @@ export default class EdgeRadioPlayer {
     if(this.tritonCurrentSong.TPE1 !== "") {
       this.interface.setCurrentSong(this.tritonCurrentSong);
     }
+    this.player.setVolume(0);
     this.player.play( {mount: this.service.radioConfig.streamUrl} );
   }
 
