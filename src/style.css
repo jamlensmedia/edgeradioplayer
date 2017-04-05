@@ -213,6 +213,9 @@ and (orientation : portrait) {
     #edge-radio-player-ad-container {
         display: none;
     }
+    #edge-radio-player-live-image-container {
+        display: none;
+    }
     #edge-radio-player-display-label-white {
         display: none;
     }

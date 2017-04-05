@@ -27,23 +27,39 @@ export default class PlayerInterface {
     this.controlContainer.style.background = this.service.radioConfig.background;
     this.container.appendChild(this.controlContainer);
 
-    // this.playPauseControl = document.createElement('div');
-    // this.playPauseControl.id = 'edge-radio-player-play-pause';
-    // this.playPauseControl.addEventListener('click', () => {
-    //   this.playPause();
-    // });
-    // this.controlContainer.appendChild(this.playPauseControl);
+    if (this.service.radioConfig.ajax == "false") {
+      this.playPauseControl = document.createElement('div');
+      this.playPauseControl.id = 'edge-radio-player-play-pause';
+      // this.playPauseControl.addEventListener('click', () => {
+      //   this.playPause();
+      // });
+      // this.controlContainer.appendChild(this.playPauseControl);
 
-    this.volumeControl = document.createElement('a');
-    this.volumeControl.href = this.service.radioConfig.liveLink;
-    this.volumeControl.target = '_blank';
-    this.volumeControl.classList.add('muted');
-    this.volumeControl.id = 'edge-radio-player-volume';
-    this.volumeControl.addEventListener('click', () => {
-      this.toggleMute();
+      this.volumeControl = document.createElement('a');
+      this.volumeControl.href = this.service.radioConfig.liveLink;
+      this.volumeControl.target = '_blank';
+      this.volumeControl.classList.add('muted');
+      this.volumeControl.id = 'edge-radio-player-volume';
+      this.volumeControl.addEventListener('click', () => {
+        this.toggleMute();
 
-      // this.toggleVolume();
-    });
+        // this.toggleVolume();
+      });
+    } else {
+      this.playPauseControl = document.createElement('div');
+      this.playPauseControl.id = 'edge-radio-player-play-pause';
+      this.playPauseControl.addEventListener('click', () => {
+        this.playPause();
+      });
+      this.controlContainer.appendChild(this.playPauseControl);
+
+      this.volumeControl = document.createElement('div');
+      this.volumeControl.id = 'edge-radio-player-volume';
+      this.volumeControl.addEventListener('click', () => {
+        this.toggleVolume();
+      });
+    }
+
     this.controlContainer.appendChild(this.volumeControl);
 
     this.volumeSliderContainer = document.createElement('div');
@@ -76,7 +92,7 @@ export default class PlayerInterface {
         }
       }
     } else if(this.service.radioConfig.type === 'triton') {
-      if(this.playerController.player.MediaElement.audioNode.paused) {
+      if(this.playerController.player.MediaPlayer && !this.playerController.player.MediaPlayer.isPlaying()) {
         this.player.pause();
         this.playerController.tritonPlay();
         if(this.playerController.tritonCurrentSong.TPE1 !== "") {

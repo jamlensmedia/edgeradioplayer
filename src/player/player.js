@@ -158,31 +158,43 @@ export default class EdgeRadioPlayer {
     } );
 
     this.player.addEventListener( 'list-loaded', (e) => this.onListLoaded(e) );
-    this.player.NowPlayingApi.load( {
-      mount:this.service.radioConfig.streamUrl,
-      hd:true,
-      numberToFetch:10,
-      eventType:'track'
-    } );
+    this.tritonGetSongList();
     this.tritonCurrentSong = {
       TPE1: this.service.radioConfig.title,
       TIT2: ''
     };
-    this.tritonSetVolume(Math.abs(this.service.radioConfig.startingVolume - 100)/100);
+    this.tritonSetVolume(Math.abs(this.service.radioConfig.startingVolume)/100);
 
     if(!this.mobileAndTabletcheck()) {
-      this.tritonPlay();
+      if(this.service.radioConfig.autoplay != "false"){
+        this.tritonPlay();
+      }
     } else {
       this.interface.setCurrentSong(this.tritonCurrentSong);
       this.interface.playPauseControl.classList.add('paused');
     }
+
+    if(this.service.radioConfig.autoplay == "false"){
+      setInterval(() => this.tritonGetSongList(), 20000);
+    }
+  }
+
+  tritonGetSongList() {
+    this.player.NowPlayingApi.load( {
+      mount:this.service.radioConfig.streamUrl,
+      hd:true,
+      numberToFetch:5,
+      eventType:'track'
+    } );
   }
 
   tritonPlay() {
     if(this.tritonCurrentSong.TPE1 !== "") {
       this.interface.setCurrentSong(this.tritonCurrentSong);
     }
-    this.player.setVolume(0);
+    if (this.service.radioConfig.ajax == "false") {
+      this.player.setVolume(0);
+    }
     this.player.play( {mount: this.service.radioConfig.streamUrl} );
   }
 
@@ -191,6 +203,7 @@ export default class EdgeRadioPlayer {
   }
 
   tritonSetVolume(volume) {
+    console.log("set volume", volume);
     if(this.player) {
       this.player.setVolume(volume);
     }
@@ -199,7 +212,16 @@ export default class EdgeRadioPlayer {
   onListLoaded( e )
   {
     //Display now playing information in the "onair" div element.
-    //document.getElementById('onair').innerHTML = 'Artist: ' + e.data.cuePoint.artistName + '<BR>Title: ' + e.data.cuePoint.cueTitle;
+    if(e && e.data && e.data.list) {
+      if(e.data.list.length > 0) {
+        let cuePoint = {
+          data: {
+            cuePoint: e.data.list[e.data.list.length - 1]
+          }
+        };
+        this.onTrackCuePoint(cuePoint);
+      }
+    }
   }
 
   onTrackAdCuePoint(e) {

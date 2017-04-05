@@ -14,7 +14,8 @@ export default class PlayerService {
       if (err && console) console.error(err);
         let serverConfig = JSON.parse(body);
         this.radioConfig = {
-          startingVolume: parseInt(serverConfig.starting_volume) || 100,
+          startingVolume: parseInt(serverConfig.starting_volume) || 0,
+          ajax: serverConfig.ajax || "false",
           autoplay: serverConfig.autoplay || "true",
           streamUrl: serverConfig.stream_url,
           title: serverConfig.title.rendered || 'Loading...',
