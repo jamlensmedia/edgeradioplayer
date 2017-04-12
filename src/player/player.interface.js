@@ -187,10 +187,45 @@ export default class PlayerInterface {
     this.setDisplayLabel(this.service.radioConfig.whiteText);
     this.container.appendChild(this.displayLabel);
 
+    if(this.service.radioConfig.dropDownLinks.length !== 0) {
+      this.createDropDown();
+    }
+
     imageContainer.appendChild(logoLink);
+
     if(this.service.radioConfig.adLink && this.service.radioConfig.adImage) {
       this.createAd();
     }
+  }
+
+  createDropDown() {
+    this.dropDownContainer = document.createElement('ul');
+    this.dropDownContainer.id = 'edge-radio-player-link-dropdown';
+    this.dropDownContainer.style.background = this.service.radioConfig.background;
+
+    for (var i = 0; i < this.service.radioConfig.dropDownLinks.length; ++i) {
+      let dropDownItem = document.createElement('li');
+      let dropDownLink = document.createElement('a');
+
+      dropDownLink.href = this.service.radioConfig.dropDownLinks[i].link;
+      dropDownLink.target = '_blank';
+      dropDownLink.innerHTML = this.service.radioConfig.dropDownLinks[i].label;
+      dropDownItem.appendChild(dropDownLink);
+
+      this.dropDownContainer.appendChild(dropDownItem);
+    }
+
+    this.displayLabel.addEventListener("mouseover", ( event ) => {
+      console.log("over");
+      this.dropDownContainer.classList.add('open');
+    }, false);
+
+    this.displayLabel.addEventListener("mouseleave", ( event ) => {
+      console.log("leave");
+      this.dropDownContainer.classList.remove('open');
+    }, false);
+
+    this.container.appendChild(this.dropDownContainer);
   }
 
   createAd() {

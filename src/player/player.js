@@ -203,7 +203,6 @@ export default class EdgeRadioPlayer {
   }
 
   tritonSetVolume(volume) {
-    console.log("set volume", volume);
     if(this.player) {
       this.player.setVolume(volume);
     }

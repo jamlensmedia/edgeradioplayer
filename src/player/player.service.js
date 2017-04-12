@@ -32,6 +32,40 @@ export default class PlayerService {
           liveImage: serverConfig.live_image || 'http://edgeradio.pairserver.com/listen-live.jpg',
           background: serverConfig.radio_background || '#344557',
         };
+
+        this.radioConfig.dropDownLinks = [];
+
+        if(serverConfig.white_text_dropdown_label_1 !== '') {
+          this.radioConfig.dropDownLinks.push({
+            label: serverConfig.white_text_dropdown_label_1,
+            link: serverConfig.white_text_dropdown_link_1
+          });
+        }
+        if(serverConfig.white_text_dropdown_label_2 !== '') {
+          this.radioConfig.dropDownLinks.push({
+            label: serverConfig.white_text_dropdown_label_2,
+            link: serverConfig.white_text_dropdown_link_2
+          });
+        }
+        if(serverConfig.white_text_dropdown_label_3 !== '') {
+          this.radioConfig.dropDownLinks.push({
+            label: serverConfig.white_text_dropdown_label_3,
+            link: serverConfig.white_text_dropdown_link_3
+          });
+        }
+        if(serverConfig.white_text_dropdown_label_4 !== '') {
+          this.radioConfig.dropDownLinks.push({
+            label: serverConfig.white_text_dropdown_label_4,
+            link: serverConfig.white_text_dropdown_link_4
+          });
+        }
+        if(serverConfig.white_text_dropdown_label_5 !== '') {
+          this.radioConfig.dropDownLinks.push({
+            label: serverConfig.white_text_dropdown_label_5,
+            link: serverConfig.white_text_dropdown_link_5
+          });
+        }
+
         callback();
       });
   };

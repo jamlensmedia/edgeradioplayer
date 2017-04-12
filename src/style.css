@@ -56,6 +56,38 @@
     text-transform: uppercase;
 }
 
+#edge-radio-player-link-dropdown {
+    display: none;
+    position: absolute;
+    right: 80px;
+    margin: 0;
+    top: 35px;
+
+    min-width: 90px;
+
+    padding: 0;
+    list-style: none;
+    background: #344557;
+}
+
+#edge-radio-player-link-dropdown.open {
+    display: block;
+}
+
+#edge-radio-player-link-dropdown li {
+    padding: 5px 10px;
+    font-size: 14px;
+}
+
+#edge-radio-player-link-dropdown li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+#edge-radio-player-link-dropdown li a:hover {
+    color: #ea8821;
+}
+
 #edge-radio-player-display-label-white:hover {
     color: #ea8821;
 }
