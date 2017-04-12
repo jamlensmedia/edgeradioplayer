@@ -216,12 +216,18 @@ export default class PlayerInterface {
     }
 
     this.displayLabel.addEventListener("mouseover", ( event ) => {
-      console.log("over");
       this.dropDownContainer.classList.add('open');
     }, false);
 
     this.displayLabel.addEventListener("mouseleave", ( event ) => {
-      console.log("leave");
+      this.dropDownContainer.classList.remove('open');
+    }, false);
+
+    this.dropDownContainer.addEventListener("mouseover", ( event ) => {
+      this.dropDownContainer.classList.add('open');
+    }, false);
+
+    this.dropDownContainer.addEventListener("mouseleave", ( event ) => {
       this.dropDownContainer.classList.remove('open');
     }, false);
 
