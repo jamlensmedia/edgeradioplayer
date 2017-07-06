@@ -76,7 +76,7 @@ export default class EdgeRadioPlayer {
   startStream() {
     if(this.service.radioConfig.type === 'streamOn') {
       if((this.firstLoad === true && this.service.radioConfig.autoplay == "false")) {
-        this.interface.playPauseControl.classList.add('paused');
+        this.interface.controlPause();
         this.firstLoad = false;
       } else  {
         if(Hls.isSupported() && !this.streamStarted) {
@@ -89,7 +89,7 @@ export default class EdgeRadioPlayer {
           hls.on(Hls.Events.MANIFEST_PARSED,() => {
             this.streamStarted = true;
             this.interface.player.play();
-            this.interface.playPauseControl.classList.remove('paused');
+            this.interface.controlPlay();
           });
 
           hls.on(Hls.Events.LEVEL_LOADED, (event,data) => {
@@ -103,7 +103,7 @@ export default class EdgeRadioPlayer {
           this.interface.player.src = this.service.radioConfig.streamUrl;
           this.interface.playPause();
           if(this.interface.player.paused) {
-            this.interface.playPauseControl.classList.add('paused');
+            this.interface.controlPause();
           }
         }
       }
@@ -126,7 +126,7 @@ export default class EdgeRadioPlayer {
 
   startTriton() {
     if(this.firstLoad === true && this.service.radioConfig.autoplay == "false") {
-      this.interface.playPauseControl.classList.add('paused');
+      this.interface.controlPause();
       this.firstLoad = false;
     }
     //Player SDK is ready to be used, this is where you can instantiate a new TDSdk instance.
@@ -171,7 +171,7 @@ export default class EdgeRadioPlayer {
       }
     } else {
       this.interface.setCurrentSong(this.tritonCurrentSong);
-      this.interface.playPauseControl.classList.add('paused');
+      this.interface.controlPause();
     }
 
     if(this.service.radioConfig.autoplay == "false"){
@@ -196,6 +196,7 @@ export default class EdgeRadioPlayer {
       this.player.setVolume(0);
     }
     this.player.play( {mount: this.service.radioConfig.streamUrl} );
+    this.interface.controlPlay();
   }
 
   tritonPause() {

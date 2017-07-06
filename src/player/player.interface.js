@@ -27,16 +27,16 @@ export default class PlayerInterface {
     this.controlContainer.style.background = this.service.radioConfig.background;
     this.container.appendChild(this.controlContainer);
 
+    this.playPauseControl = document.createElement('a');
+    this.playPauseControl.id = 'edge-radio-player-play-pause';
+
+    this.controlContainer.appendChild(this.playPauseControl);
+
     if (this.service.radioConfig.ajax == "false") {
-      this.playPauseControl = document.createElement('div');
-      this.playPauseControl.id = 'edge-radio-player-play-pause';
-      // this.playPauseControl.addEventListener('click', () => {
-      //   this.playPause();
-      // });
-      // this.controlContainer.appendChild(this.playPauseControl);
+      this.controlPause();
+      this.playPauseControl.href = this.service.radioConfig.liveLink;
 
       this.volumeControl = document.createElement('a');
-      this.volumeControl.href = this.service.radioConfig.liveLink;
       this.volumeControl.target = '_blank';
       this.volumeControl.classList.add('muted');
       this.volumeControl.id = 'edge-radio-player-volume';
@@ -46,20 +46,21 @@ export default class PlayerInterface {
         // this.toggleVolume();
       });
     } else {
-      this.playPauseControl = document.createElement('div');
-      this.playPauseControl.id = 'edge-radio-player-play-pause';
       this.playPauseControl.addEventListener('click', () => {
         this.playPause();
       });
-      this.controlContainer.appendChild(this.playPauseControl);
 
-      this.volumeControl = document.createElement('div');
-      this.volumeControl.id = 'edge-radio-player-volume';
-      this.volumeControl.addEventListener('click', () => {
-        this.toggleVolume();
-      });
+      this.addVolumeControl();
     }
 
+  }
+
+  addVolumeControl() {
+    this.volumeControl = document.createElement('div');
+    this.volumeControl.id = 'edge-radio-player-volume';
+    this.volumeControl.addEventListener('click', () => {
+      this.toggleVolume();
+    });
     this.controlContainer.appendChild(this.volumeControl);
 
     this.volumeSliderContainer = document.createElement('div');
@@ -76,6 +77,16 @@ export default class PlayerInterface {
     this.volume(Math.abs(this.service.radioConfig.startingVolume - 100));
   }
 
+  controlPlay() {
+    this.playPauseControl.innerHTML = 'RADIO ON';
+    this.playPauseControl.classList.remove('paused');
+  }
+
+  controlPause() {
+    this.playPauseControl.innerHTML = 'RADIO OFF';
+    this.playPauseControl.classList.add('paused');
+  }
+
   playPause() {
     if(this.service.radioConfig.type === 'streamOn') {
       if(!this.playerController.streamStarted) {
@@ -84,10 +95,10 @@ export default class PlayerInterface {
         if(this.player.paused) {
           this.playerController.updateSong();
           this.player.play();
-          this.playPauseControl.classList.remove('paused');
+          this.controlPlay();
         } else {
           this.player.pause();
-          this.playPauseControl.classList.add('paused');
+          this.controlPause();
           this.playerController.stopStream();
         }
       }
@@ -98,10 +109,10 @@ export default class PlayerInterface {
         if(this.playerController.tritonCurrentSong.TPE1 !== "") {
           this.setCurrentSong(this.playerController.tritonCurrentSong);
         }
-        this.playPauseControl.classList.remove('paused');
+        this.controlPlay()
       } else {
         this.playerController.tritonPause();
-        this.playPauseControl.classList.add('paused');
+        this.controlPause()
       }
     }
   };
