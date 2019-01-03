@@ -9,7 +9,7 @@ export default class PlayerService {
   }
 
   getRadioConfig(callback) {
-    request.get('http://edgeradio.pairserver.com/wp-json/wp/v2/radio/' + this.radioId,
+    request.get('https://ghradioplayer.com/wp-json/wp/v2/radio/' + this.radioId,
       (err, res, body) => {
       if (err && console) console.error(err);
         let serverConfig = JSON.parse(body);
