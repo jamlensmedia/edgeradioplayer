@@ -137,7 +137,7 @@ gulp.task('default', ['watch', 'webserver']);
 gulp.task('webserver', function() {
   gulp.src('./')
     .pipe(webserver({
-      host: '192.168.0.5',
+      host: '192.168.0.10',
       livereload: true,
       directoryListing: true,
       open: true

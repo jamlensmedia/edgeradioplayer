@@ -135,7 +135,18 @@ export default class EdgeRadioPlayer {
       coreModules: [{
         id: 'MediaPlayer',
         playerId: this.interface.container.id,
-        techPriority:['Html5', 'Flash']
+        techPriority:['Html5', 'Flash'],
+        geoTargeting: {
+          desktop: {
+            isActive: false
+          },
+          iOS: {
+            isActive: false
+          },
+          android: {
+            isActive: false
+          }
+        }
       },{
         id: 'NowPlayingApi'
       }],
@@ -145,10 +156,9 @@ export default class EdgeRadioPlayer {
     this.player = new TDSdk( tdPlayerConfig );
   }
 
-
   onTritonPlayerReady() {
     this.player.addEventListener( 'track-cue-point', (e) => {
-      this.onTrackCuePoint(e)
+       this.onTrackCuePoint(e)
     } );
     this.player.addEventListener( 'speech-cue-point', (e) => {
       this.onTrackCuePoint(e)
@@ -216,7 +226,7 @@ export default class EdgeRadioPlayer {
       if(e.data.list.length > 0) {
         let cuePoint = {
           data: {
-            cuePoint: e.data.list[e.data.list.length - 1]
+            cuePoint: e.data.list[0]
           }
         };
         this.onTrackCuePoint(cuePoint);
