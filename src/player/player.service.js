@@ -13,10 +13,37 @@ export default class PlayerService {
       (err, res, body) => {
       if (err && console) console.error(err);
         let serverConfig = JSON.parse(body);
+        let autoplay = serverConfig.autoplay || "true";
+
+        if(autoplay == "false") {
+          let autoplayConfig = {
+            start_auto_play: parseInt(serverConfig.start_auto_play),
+            stop_auto_play: parseInt(serverConfig.stop_auto_play),
+            days: [
+              serverConfig.day_of_week_sunday == "1",
+              serverConfig.day_of_week_monday == "1",
+              serverConfig.day_of_week_tuesday == "1",
+              serverConfig.day_of_week_wednesday == "1",
+              serverConfig.day_of_week_thursday == "1",
+              serverConfig.day_of_week_friday == "1",
+              serverConfig.day_of_week_saturday == "1"
+            ]
+          };
+          let date = new Date();
+          // if it can autoplay today
+          if(autoplayConfig.days[date.getDay()]) {
+            let currentHour = date.getHours();
+            if(currentHour >= autoplayConfig.start_auto_play && currentHour < autoplayConfig.stop_auto_play) {
+              // Should autoplayConfig
+              autoplay = "true";
+            }
+          }
+        }
+
         this.radioConfig = {
           startingVolume: parseInt(serverConfig.starting_volume) || 0,
           ajax: serverConfig.ajax || "false",
-          autoplay: serverConfig.autoplay || "true",
+          autoplay: autoplay,
           streamUrl: serverConfig.stream_url,
           title: serverConfig.title.rendered || 'Loading...',
           whiteText: serverConfig.white_text || "On Demand",

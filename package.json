@@ -1,6 +1,6 @@
 {
   "name": "edge-radio-player",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Embed the edge radio player into your site.",
   "main": "edge-radio-player.min.js",
   "scripts": {
