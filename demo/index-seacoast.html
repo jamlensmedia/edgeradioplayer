@@ -18,7 +18,17 @@
   <a href="sample.mp3">Sample MP3 Link</a>
 
   <script>
-    var radioId = 37;
+    var __gh__coreData = {
+      globalVariables: {
+        ads: {
+          youTubeAutoPlay: true
+        },
+      },
+      user: {
+        isSubscriber: false
+      }
+    };
+    var radioId = 165;
     var playerElement = document.getElementById("radio");
     var edgeRadioPlayer = new EdgeRadioPlayer(playerElement, radioId);
   </script>

@@ -29,6 +29,7 @@ export default class PlayerInterface {
 
     this.playPauseControl = document.createElement('a');
     this.playPauseControl.id = 'edge-radio-player-play-pause';
+    this.playPauseControl.style.background = this.service.radioConfig.radio_toggle_background;
 
     this.controlContainer.appendChild(this.playPauseControl);
 
@@ -47,6 +48,13 @@ export default class PlayerInterface {
       });
     } else {
       this.playPauseControl.addEventListener('click', () => {
+        // set cookie for autoplay, in click event
+        if(this.playerController.player.MediaPlayer && !this.playerController.player.MediaPlayer.isPlaying()) {
+          this.setCookie('radio_cookie_autoplay', 'true', 2);
+        } else {
+          this.setCookie('radio_cookie_autoplay', 'false', 2);
+        }
+
         this.playPause();
       });
 
@@ -78,14 +86,27 @@ export default class PlayerInterface {
   }
 
   controlPlay() {
-    this.playPauseControl.innerHTML = 'RADIO ON';
+    this.playPauseControl.innerHTML = 'TURN RADIO OFF';
+    this.playPauseControl.style.color = this.service.radioConfig.radio_toggle_off_text_color;
     this.playPauseControl.classList.remove('paused');
   }
 
   controlPause() {
-    this.playPauseControl.innerHTML = 'RADIO OFF';
+    this.playPauseControl.innerHTML = 'TURN RADIO ON';
+    this.playPauseControl.style.color = this.service.radioConfig.radio_toggle_on_text_color;
     this.playPauseControl.classList.add('paused');
   }
+
+  setCookie(name,value,days) {
+    var expires = "";
+    if (days) {
+      var date = new Date();
+      date.setTime(date.getTime() + (days*24*60*60*1000));
+      expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+  };
+
 
   playPause() {
     if(this.service.radioConfig.type === 'streamOn') {
@@ -298,4 +319,3 @@ export default class PlayerInterface {
     this.setDisplayContent(displayContent);
   }
 };
-

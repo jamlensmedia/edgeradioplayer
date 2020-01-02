@@ -126,6 +126,10 @@ export default class EdgeRadioPlayer {
 
   startTriton() {
     if(this.firstLoad === true && this.service.radioConfig.autoplay == "false") {
+      this.interface.setCurrentSong({
+        TPE1: this.service.radioConfig.title,
+        TIT2: ''
+      });
       this.interface.controlPause();
       this.firstLoad = false;
     }
@@ -205,7 +209,13 @@ export default class EdgeRadioPlayer {
     if (this.service.radioConfig.ajax == "false") {
       this.player.setVolume(0);
     }
-    this.player.play( {mount: this.service.radioConfig.streamUrl} );
+    let trackingParams = this.service.radioConfig.trackingParams.split( ',' );
+    let params = {};
+  	for ( var i = 0; i < trackingParams.length; i++ ) {
+  		var tup = trackingParams[ i ].split( ':' );
+  		params[ tup[ 0 ] ] = tup[ 1 ];
+  	}
+    this.player.play( {mount: this.service.radioConfig.streamUrl, trackingParameters: params} );
     this.interface.controlPlay();
   }
 
